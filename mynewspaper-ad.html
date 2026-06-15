@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Daily You — Your Newspaper. Finally.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=UnifrakturMaguntia&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0D1B2A;
+      --ivory:  #F7F3EC;
+      --saffron:#F5A623;
+      --red:    #C0392B;
+      --ink:    #1A1A1A;
+      --muted:  #6B6B6B;
+      --rule:   #2E2E2E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── TOP TICKER ── */
+    .ticker-wrap {
+      background: var(--navy);
+      color: var(--saffron);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 6px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-inner span { margin-right: 60px; }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      background: var(--ivory);
+      border-bottom: 3px double var(--ink);
+      padding: 18px 40px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .masthead-meta {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+    .masthead-title {
+      text-align: center;
+      flex: 1;
+    }
+    .masthead-title .the {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .masthead-title h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 7vw, 80px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--navy);
+    }
+    .masthead-title .tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+      display: block;
+    }
+    .masthead-price {
+      text-align: right;
+    }
+    .masthead-price .price-label {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+    }
+    .masthead-price .price-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--red);
+      display: block;
+    }
+    .masthead-price .price-sub {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* ── SECTION RULE ── */
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 0 40px;
+    }
+    .section-rule.thick { border-top-width: 3px; }
+    .section-label {
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: var(--navy);
+      color: var(--saffron);
+      display: inline-block;
+      padding: 3px 16px;
+      margin: 0 auto;
+    }
+    .rule-label-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 0 40px;
+    }
+    .rule-line { flex: 1; height: 1px; background: var(--rule); }
+
+    /* ── HERO: FRONT PAGE PREVIEW ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      gap: 0;
+      margin: 0 40px;
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+    }
+    .hero-col {
+      padding: 20px 18px;
+      border-right: 1px solid var(--rule);
+    }
+    .hero-col:last-child { border-right: none; }
+    .hero-col-center { background: var(--navy); color: var(--ivory); }
+
+    .col-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--saffron);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .col-eyebrow.dark { color: var(--muted); }
+
+    .hero-main-hed {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 3.5vw, 38px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--ivory);
+      margin-bottom: 12px;
+    }
+    .hero-main-hed em {
+      font-style: italic;
+      color: var(--saffron);
+    }
+
+    .hero-deck {
+      font-size: 13px;
+      line-height: 1.65;
+      color: #B0B8C8;
+      margin-bottom: 16px;
+    }
+
+    /* Typewriter persona switcher */
+    .persona-tag {
+      display: inline-block;
+      background: var(--saffron);
+      color: var(--navy);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      margin-bottom: 12px;
+    }
+    .typewriter-hed {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ivory);
+      min-height: 90px;
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--saffron);
+      vertical-align: text-bottom;
+      animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .side-story { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--rule); }
+    .side-story:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .side-hed {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+    .side-body {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .breaking-strip {
+      background: var(--red);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    /* ── PROBLEM SECTION ── */
+    .problem-section {
+      background: var(--navy);
+      color: var(--ivory);
+      padding: 60px 40px;
+    }
+    .problem-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .problem-inner .overline {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--saffron);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .problem-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 4vw, 46px);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .problem-inner h2 em { font-style: italic; color: var(--saffron); }
+    .problem-inner p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #B0B8C8;
+      max-width: 640px;
+      margin: 0 auto 32px;
+    }
+    .doom-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .doom-stat { text-align: center; }
+    .doom-stat .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--saffron);
+      line-height: 1;
+      display: block;
+    }
+    .doom-stat .lbl {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #8899AA;
+      max-width: 120px;
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      padding: 60px 40px;
+      background: var(--ivory);
+    }
+    .how-inner { max-width: 960px; margin: 0 auto; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 3.5vw, 38px);
+      font-weight: 900;
+      text-align: center;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .section-title em { font-style: italic; color: var(--red); }
+    .section-subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+    .how-step {
+      background: var(--ivory);
+      padding: 32px 28px;
+    }
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 900;
+      color: #E8E3D8;
+      line-height: 1;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .step-body { font-size: 13px; line-height: 1.7; color: var(--muted); }
+
+    /* ── VS SECTION ── */
+    .vs-section {
+      padding: 60px 40px;
+      background: #F0EDE4;
+    }
+    .vs-inner { max-width: 860px; margin: 0 auto; }
+    .vs-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      margin-top: 40px;
+      border: 1px solid var(--rule);
+    }
+    .vs-col { padding: 28px 24px; }
+    .vs-col.bad { background: #fff8f8; }
+    .vs-col.good { background: var(--navy); }
+    .vs-divider {
+      width: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--muted);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      background: var(--ivory);
+    }
+    .vs-label {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    .vs-col.bad .vs-label { color: var(--red); }
+    .vs-col.good .vs-label { color: var(--saffron); }
+
+    .vs-item {
+      font-size: 13px;
+      line-height: 1.55;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .vs-col.good .vs-item { border-color: rgba(255,255,255,0.1); color: #B0B8C8; }
+    .vs-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+    .vs-col.good .vs-item-text { color: var(--ivory); }
+
+    /* ── WHO IT'S FOR ── */
+    .who-section {
+      padding: 60px 40px;
+      background: var(--ivory);
+    }
+    .who-inner { max-width: 960px; margin: 0 auto; }
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin-top: 40px;
+    }
+    .persona-card {
+      background: var(--ivory);
+      padding: 28px 24px;
+      cursor: default;
+      transition: background 0.25s;
+    }
+    .persona-card:hover { background: var(--navy); }
+    .persona-card:hover .persona-name,
+    .persona-card:hover .persona-role,
+    .persona-card:hover .persona-reads,
+    .persona-card:hover .persona-reads-label { color: var(--ivory); }
+    .persona-card:hover .persona-reads-label { color: var(--saffron); }
+    .persona-emoji { font-size: 28px; margin-bottom: 12px; display: block; }
+    .persona-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 2px;
+      transition: color 0.25s;
+    }
+    .persona-role {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: block;
+      transition: color 0.25s;
+    }
+    .persona-reads-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--saffron);
+      font-weight: 600;
+      margin-bottom: 5px;
+      transition: color 0.25s;
+    }
+    .persona-reads {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--muted);
+      transition: color 0.25s;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--navy);
+      padding: 80px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: 'THE DAILY YOU';
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      font-size: 120px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.03);
+      white-space: nowrap;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      letter-spacing: -0.02em;
+    }
+    .cta-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+    .cta-overline {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--saffron);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .cta-hed {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 900;
+      color: var(--ivory);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .cta-hed em { font-style: italic; color: var(--saffron); }
+    .cta-sub {
+      font-size: 15px;
+      color: #8899AA;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    .price-display {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 32px;
+    }
+    .price-symbol { font-size: 28px; color: var(--saffron); font-family: 'Playfair Display', serif; }
+    .price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 900;
+      color: var(--ivory);
+      line-height: 1;
+    }
+    .price-period { font-size: 16px; color: #8899AA; align-self: center; }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--saffron);
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 18px 48px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+    .cta-btn:hover { background: #ffbc3d; transform: translateY(-2px); }
+    .cta-guarantee {
+      font-size: 11px;
+      color: #607080;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: #607080;
+      text-align: center;
+      font-size: 11px;
+      padding: 20px 40px;
+      border-top: 3px double var(--rule);
+      letter-spacing: 0.06em;
+    }
+    footer span { color: var(--saffron); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .masthead { padding: 14px 16px; flex-direction: column; text-align: center; gap: 8px; }
+      .masthead-meta, .masthead-price { text-align: center; }
+      .section-rule, .rule-label-row { margin: 0 16px; }
+      .hero { grid-template-columns: 1fr; margin: 0 16px; }
+      .hero-col { border-right: none; border-bottom: 1px solid var(--rule); }
+      .hero-col:last-child { border-bottom: none; }
+      .problem-section, .how-section, .vs-section, .who-section, .cta-section { padding: 40px 16px; }
+      .how-steps { grid-template-columns: 1fr; }
+      .vs-grid { grid-template-columns: 1fr; }
+      .vs-divider { width: 100%; height: 40px; border: none; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+      .persona-grid { grid-template-columns: 1fr; }
+      .doom-stats { gap: 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-inner { animation: none; }
+      .cursor { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner">
+    <span>✦ INVITE ONLY: Membership is by application — not everyone gets in</span>
+    <span>✦ BREAKING: You've been doom-scrolling for 2.5 hours today</span>
+    <span>✦ MARKETS: Your portfolio is moving — are you reading about it?</span>
+    <span>✦ OPINION: Nobody curates the news for you. Until now.</span>
+    <span>✦ EXCLUSIVE: Your personal microsite. Refreshes daily at 10 AM.</span>
+    <span>✦ INVITE ONLY: Membership is by application — not everyone gets in</span>
+    <span>✦ BREAKING: You've been doom-scrolling for 2.5 hours today</span>
+    <span>✦ MARKETS: Your portfolio is moving — are you reading about it?</span>
+    <span>✦ OPINION: Nobody curates the news for you. Until now.</span>
+    <span>✦ EXCLUSIVE: Your personal microsite. Refreshes daily at 10 AM.</span>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-meta">
+    Sunday, 14 June 2026<br>
+    Est. For You, Always<br>
+    Vol. 1 · No. 1
+  </div>
+  <div class="masthead-title">
+    <span class="the">The</span>
+    <h1>Daily You</h1>
+    <span class="tagline">"All the news that fits your life."</span>
+  </div>
+  <div class="masthead-price">
+    <span class="price-label" style="background:var(--red);color:white;padding:2px 8px;letter-spacing:0.12em;">✦ Invite Only</span>
+    <span class="price-val">₹99</span>
+    <span class="price-sub">Per month · By application</span>
+  </div>
+</header>
+
+<!-- CTA -->
+<section class="cta-section" id="subscribe">
+  <div class="cta-inner">
+    <span class="cta-overline" style="background:var(--red);color:white;padding:4px 16px;letter-spacing:0.18em;">✦ Invite Only — Limited Spots</span>
+    <h2 class="cta-hed" style="margin-top:20px;">Your news.<br>Your microsite.<br><em>Your 15 minutes.</em></h2>
+    <p class="cta-sub">Apply for access tonight. Tell us your interests in 3 minutes. Tomorrow at 10 AM, your personal microsite goes live — a front page built for exactly one person: you. Every topic, every section, chosen entirely by you. And once a month, your editor checks in to make sure it stays that way.</p>
+
+    <div class="price-display">
+      <span class="price-symbol">₹</span>
+      <span class="price-amount">99</span>
+      <span class="price-period">/month</span>
+    </div>
+    <br>
+    <a class="cta-btn" href="onboarding.html">Request Your Invitation →</a>
+    <div class="cta-guarantee">
+      <span>🔒</span>
+      <span>By application only · Cancel anytime · Your data stays yours</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="how-inner">
+    <h2 class="section-title">How Your Edition <em>Gets Made</em></h2>
+    <p class="section-subtitle">Four steps. Every morning. Entirely yours.</p>
+
+    <div class="how-steps" style="grid-template-columns: repeat(2,1fr);">
+      <div class="how-step">
+        <span class="step-num">I</span>
+        <div class="step-title">You Define Every Topic</div>
+        <p class="step-body">Your industry. Your city. Your investments. Your career goals. Every section and topic category is completely customizable — you choose exactly what goes in and what stays out. Change it anytime.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-num">II</span>
+        <div class="step-title">Your Microsite Goes Live</div>
+        <p class="step-body">Every morning at 10 AM, your personal dedicated microsite refreshes with your new edition. Just bookmark it once — open it daily to find a front page built for exactly one person: you. No inbox, no app, no algorithm.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-num">III</span>
+        <div class="step-title">You Read in 15 Minutes</div>
+        <p class="step-body">A clean, scannable edition in the format of a real newspaper. Signal, no noise. Designed to be read with a cup of chai, not doomscrolled at 2 AM in bed.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-num">IV</span>
+        <div class="step-title">Your Editor Checks In Monthly</div>
+        <p class="step-body">Once every month, your dedicated editor reaches out personally to ask if you'd like any changes for the coming month — new topics, dropped sections, a fresh focus. Your newspaper evolves as your life does.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VS SECTION -->
+<section class="vs-section">
+  <div class="vs-inner">
+    <h2 class="section-title" style="text-align:center;">The Daily You <em>vs.</em> Everything Else</h2>
+
+    <div class="vs-grid">
+      <div class="vs-col bad">
+        <div class="vs-label">📰 Random News Apps</div>
+        <div class="vs-item"><span class="vs-icon">✗</span><span>Curated for maximum engagement, not your life</span></div>
+        <div class="vs-item"><span class="vs-icon">✗</span><span>Anxiety-inducing notification floods</span></div>
+        <div class="vs-item"><span class="vs-icon">✗</span><span>You read for 2 hours, remember nothing</span></div>
+        <div class="vs-item"><span class="vs-icon">✗</span><span>Politics and outrage crowd out your actual interests</span></div>
+        <div class="vs-item"><span class="vs-icon">✗</span><span>No financial or industry context</span></div>
+        <div class="vs-item"><span class="vs-icon">✗</span><span>Technically "free" — you're the product</span></div>
+      </div>
+
+      <div class="vs-divider">vs</div>
+
+      <div class="vs-col good">
+        <div class="vs-label">✦ The Daily You</div>
+        <div class="vs-item"><span class="vs-icon">✓</span><span class="vs-item-text">Built around your goals, career, and city</span></div>
+        <div class="vs-item"><span class="vs-icon">✓</span><span class="vs-item-text">Every topic and section is 100% customizable by you</span></div>
+        <div class="vs-item"><span class="vs-icon">✓</span><span class="vs-item-text">Your personal microsite refreshes daily at 10 AM</span></div>
+        <div class="vs-item"><span class="vs-icon">✓</span><span class="vs-item-text">15-minute read, 100% retention-worthy</span></div>
+        <div class="vs-item"><span class="vs-icon">✓</span><span class="vs-item-text">Monthly editor check-in to evolve your edition</span></div>
+        <div class="vs-item"><span class="vs-icon">✓</span><span class="vs-item-text">Invite only — ₹99/month. You're the customer, not the product.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule thick" />
+
+<div class="rule-label-row">
+  <div class="rule-line"></div>
+  <div class="section-label">Your Front Page, Today</div>
+  <div class="rule-line"></div>
+</div>
+
+<!-- HERO: LIVE FRONT PAGE PREVIEW -->
+<section class="hero" aria-label="Personalized newspaper preview">
+
+  <!-- Left column -->
+  <div class="hero-col">
+    <div class="side-story">
+      <span class="col-eyebrow dark">Finance & Markets</span>
+      <div class="side-hed">Sensex Crosses 85K — What It Means for Your Portfolio</div>
+      <div class="side-body">Curated because you track InvITs and Nifty 50 ETFs. We pulled what matters to your holdings, not the noise.</div>
+    </div>
+    <div class="side-story">
+      <span class="col-eyebrow dark">Your Industry</span>
+      <div class="side-hed">PE Valuation Multiples Compress in Q2 — Key Sectors</div>
+      <div class="side-body">Because you work in valuation, we track EV/EBITDA movements across the sectors you cover. No searching required.</div>
+    </div>
+    <div class="side-story">
+      <span class="col-eyebrow dark">Career Intelligence</span>
+      <div class="side-hed">CFA August Exam: 5 Topics Most Candidates Underestimate</div>
+      <div class="side-body">Your edition tracks your goals. Appearing for CFA? We surface exam insights every week.</div>
+    </div>
+  </div>
+
+  <!-- Center column — hero story with typewriter -->
+  <div class="hero-col hero-col-center">
+    <div class="breaking-strip">✦ Today's Lead</div>
+
+    <div class="persona-tag" id="personaTag">Finance Professional</div>
+
+    <div class="typewriter-hed" id="typewriterHed" aria-live="polite">
+      <span id="twText"></span><span class="cursor" aria-hidden="true"></span>
+    </div>
+
+    <p class="hero-deck">
+      Every morning at 10 AM, your personal microsite refreshes with your edition — built entirely around what you choose to cover. Every section, every topic, every category is fully customizable. Bookmark it once. Open it daily. No inbox clutter, no algorithm, no noise.
+    </p>
+
+    <a class="cta-btn" href="#subscribe" style="display:block;text-align:center;margin-top:8px;">
+      Get Your Edition — ₹99/mo
+    </a>
+  </div>
+
+  <!-- Right column -->
+  <div class="hero-col">
+    <div class="side-story">
+      <span class="col-eyebrow dark">City Pulse · Mumbai</span>
+      <div class="side-hed">What's Changing in Mumbai's Eastern Corridor This Week</div>
+      <div class="side-body">Your city lens stays on your city — not generic "India" news from a Delhi desk.</div>
+    </div>
+    <div class="side-story">
+      <span class="col-eyebrow dark">Long Read</span>
+      <div class="side-hed">The Rise of DFI-Backed Infrastructure in Sub-Saharan Africa</div>
+      <div class="side-body">Your edition knows your professional context. Deep reads surface when they're relevant, not random.</div>
+    </div>
+    <div class="side-story">
+      <span class="col-eyebrow dark">One Good Thing</span>
+      <div class="side-hed">A Mumbai Student Won a Global Finance Competition with ₹0 Budget</div>
+      <div class="side-body">Because not all news has to be grim. Your edition saves one uplifting story that fits your world.</div>
+    </div>
+  </div>
+
+</section>
+
+<hr class="section-rule" />
+
+<!-- PROBLEM SECTION -->
+<section class="problem-section">
+  <div class="problem-inner">
+    <span class="overline">The Problem with Your Current News Diet</span>
+    <h2>You're reading <em>everything</em><br>and retaining <em>nothing.</em></h2>
+    <p>
+      Your phone gives you 300+ news notifications a day. Most are irrelevant. Half are designed to make you anxious. None of them were selected for you — they were selected for everyone, which means they serve no one.
+    </p>
+    <div class="doom-stats">
+      <div class="doom-stat">
+        <span class="num">2.5h</span>
+        <span class="lbl">average time spent on news apps daily</span>
+      </div>
+      <div class="doom-stat">
+        <span class="num">12%</span>
+        <span class="lbl">of that time spent on content that's actually relevant to your life</span>
+      </div>
+      <div class="doom-stat">
+        <span class="num">67%</span>
+        <span class="lbl">of readers feel more anxious after browsing news feeds</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="who-section">
+  <div class="who-inner">
+    <h2 class="section-title">Who Reads <em>The Daily You</em></h2>
+    <p class="section-subtitle">Built for people whose time is worth more than what the algorithm gives them.</p>
+
+    <div class="persona-grid">
+      <div class="persona-card">
+        <span class="persona-emoji">📊</span>
+        <div class="persona-name">The Finance Professional</div>
+        <span class="persona-role">Analyst · Associate · CFA Candidate</span>
+        <div class="persona-reads-label">Their Edition Covers</div>
+        <div class="persona-reads">Market moves, valuation multiples, sector trends, CFA prep insights, DFI & PE news, SEBI updates, and one long-form on global capital flows.</div>
+      </div>
+      <div class="persona-card">
+        <span class="persona-emoji">🏙️</span>
+        <div class="persona-name">The Urban Professional</div>
+        <span class="persona-role">Manager · Entrepreneur · MBA Grad</span>
+        <div class="persona-reads-label">Their Edition Covers</div>
+        <div class="persona-reads">City news that matters, startup ecosystem updates, career intelligence, policy changes relevant to their sector, and one story of genuine curiosity.</div>
+      </div>
+      <div class="persona-card">
+        <span class="persona-emoji">🎓</span>
+        <div class="persona-name">The Ambitious Student</div>
+        <span class="persona-role">Commerce · MBA Aspirant · Fresher</span>
+        <div class="persona-reads-label">Their Edition Covers</div>
+        <div class="persona-reads">Placement-relevant industry news, exam calendars, internship ecosystem, company deep-dives, and the one story that makes for a great interview conversation.</div>
+      </div>
+      <div class="persona-card">
+        <span class="persona-emoji">📈</span>
+        <div class="persona-name">The Retail Investor</div>
+        <span class="persona-role">REIT · Equity · Mutual Fund Investor</span>
+        <div class="persona-reads-label">Their Edition Covers</div>
+        <div class="persona-reads">Portfolio-relevant macro news, debt & equity market updates, sector-specific cues, and clear-headed analysis — not TV channel shouting.</div>
+      </div>
+      <div class="persona-card">
+        <span class="persona-emoji">🧘</span>
+        <div class="persona-name">The Mindful Reader</div>
+        <span class="persona-role">Done with Doom-Scrolling</span>
+        <div class="persona-reads-label">Their Edition Covers</div>
+        <div class="persona-reads">Curated world news without the outrage engine. Science, culture, ideas, city. Reading that leaves you more informed, not more anxious.</div>
+      </div>
+      <div class="persona-card">
+        <span class="persona-emoji">🏗️</span>
+        <div class="persona-name">The Sector Specialist</div>
+        <span class="persona-role">Infra · Renewables · Healthcare · Tech</span>
+        <div class="persona-reads-label">Their Edition Covers</div>
+        <div class="persona-reads">Deep industry intelligence, policy changes, regulatory shifts, funding rounds, and the cross-sector implications most general news misses entirely.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 The Daily You &nbsp;·&nbsp; Designed for readers, not algorithms &nbsp;·&nbsp; Mumbai, India
+  &nbsp;·&nbsp; <span>₹99/month</span> &nbsp;·&nbsp; Made with care, not clicks.
+</footer>
+
+<script>
+  // Typewriter with persona switching
+  const personas = [
+    {
+      tag: "Finance Professional",
+      headline: "How RBI's Latest Policy Shift Reshapes India's Private Credit Market"
+    },
+    {
+      tag: "Mumbai Resident",
+      headline: "The Eastern Corridor Project That Will Change Your Commute by 2027"
+    },
+    {
+      tag: "Retail Investor",
+      headline: "REITs vs InvITs: Where Patient Capital Is Moving in Q2 FY27"
+    },
+    {
+      tag: "CFA Candidate",
+      headline: "Three Fixed Income Concepts August Exam Takers Keep Getting Wrong"
+    },
+    {
+      tag: "Startup Watcher",
+      headline: "Why India's Climate Tech Funding Outlasted the Broader VC Winter"
+    },
+    {
+      tag: "Mindful Reader",
+      headline: "A Quantum Computing Breakthrough — and Why It Actually Matters to You"
+    }
+  ];
+
+  let currentPersona = 0;
+  const twText = document.getElementById('twText');
+  const personaTag = document.getElementById('personaTag');
+  let charIndex = 0;
+  let isDeleting = false;
+  let pauseTimer = null;
+
+  function type() {
+    const p = personas[currentPersona];
+    const full = p.headline;
+
+    if (!isDeleting) {
+      twText.textContent = full.slice(0, charIndex + 1);
+      charIndex++;
+      if (charIndex === full.length) {
+        isDeleting = true;
+        pauseTimer = setTimeout(type, 2200);
+        return;
+      }
+    } else {
+      twText.textContent = full.slice(0, charIndex - 1);
+      charIndex--;
+      if (charIndex === 0) {
+        isDeleting = false;
+        currentPersona = (currentPersona + 1) % personas.length;
+        personaTag.textContent = personas[currentPersona].tag;
+        setTimeout(type, 300);
+        return;
+      }
+    }
+    setTimeout(type, isDeleting ? 22 : 48);
+  }
+
+  // Kick off after a short delay
+  setTimeout(() => {
+    personaTag.textContent = personas[0].tag;
+    type();
+  }, 600);
+</script>
+
+</body>
+</html>
